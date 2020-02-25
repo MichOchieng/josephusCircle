@@ -25,7 +25,7 @@ public class main {
         // dlist.combine();        
         // dlist.printList(); 
 
-        circularlist clist = new circularlist(3,2);        
+        circularlist clist = new circularlist(41,3);        
                 
     }
 }
