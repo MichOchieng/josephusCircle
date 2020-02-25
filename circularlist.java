@@ -16,7 +16,7 @@ public class circularlist {
     }    
    
     public void addPerson(node n){
-        if(firstNode == null){            
+        if(listSize == 0){            
             firstNode = n;
             tailNode = n;
             headNode.setNext(firstNode);
@@ -25,7 +25,7 @@ public class circularlist {
             tailNode.setNext(n);
             n.setPrevious(tailNode);
             n.setNext(firstNode);
-            firstNode.setPrevious(tailNode);
+            firstNode.setPrevious(n);
             tailNode = n;
             listSize++;
         }
@@ -35,25 +35,20 @@ public class circularlist {
         for (int i = 0; i < numPeople; i++) {
              addPerson(new node(i+1));
         }  
-        node temp = firstNode;  
-        node temp2;     
-        while (listSize != 1) {
-            int i = 1;                           
-            while (i != numSkip) {     
-                temp2 = temp;           
+        node temp = firstNode;
+        node temp2 = firstNode;
+        int i = 1;
+        while (listSize > 1) {                                                 
+            while (i != numSkip) {      
+                temp2 = temp;                
                 temp = temp.getNext();
                 i++;
             }
             i = 1;
-            System.out.println("Prisoner #" + temp.getPrevious().val + " killed prisoner #" + temp.val);
-            deleteNode(temp);            
-        }
-        // node temp = firstNode;
-        // while (listSize != 1) {
-        //     System.out.println("Prisoner #" + temp.val + " killed prisoner #" + temp.getNext().val);
-        //     deleteNode(temp.getNext());
-        //     temp = temp.getNext();
-        // }
+            System.out.println("Prisoner #" + temp2.val + " killed prisoner #" + temp.val);            
+            deleteNode(temp); 
+            temp = temp.getNext();           
+        }        
         System.out.println("The last prisoner standing is #" + firstNode.val);     
     }
 
@@ -61,21 +56,14 @@ public class circularlist {
         if (headNode.getNext() == null) {
             System.out.println("This list is empty.");
         }else if (n == tailNode) {
-            firstNode.setPrevious(tailNode.getPrevious());
-            tailNode.getPrevious().setNext(firstNode);
-            n.setNext(null);
-            n.setPrevious(null);
+            n.getPrevious().setNext(n.getNext());
+            n.getNext().setPrevious(n.getPrevious());
             tailNode = n.getPrevious();
             listSize--;
         }else if(n == firstNode){
-            n.getPrevious().setNext(n.getNext());
             n.getNext().setPrevious(n.getPrevious());
-            firstNode = n.getNext();
-            n.setNext(null);
-            n.setPrevious(null);
-            listSize--;
-        }else if(n == firstNode && listSize == 1){
-            headNode.setNext(null);
+            n.getPrevious().setNext(n.getNext());
+            firstNode = n.getNext();            
             listSize--;
         }else{
             n.getPrevious().setNext(n.getNext());
